@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "971359225019",
+    "project_id": "uts-frozen-food",
+    "storage_bucket": "uts-frozen-food.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:971359225019:android:6445b1f12375b14f02559e",
+        "android_client_info": {
+          "package_name": "com.example.frozen_food_1123150049"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGzpIgDSRmFd7ZmaT23y--7b7Z5qGGXUQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:971359225019:android:da5d47b2119d46b302559e",
+        "android_client_info": {
+          "package_name": "com.example.frozen_food_1123150059"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGzpIgDSRmFd7ZmaT23y--7b7Z5qGGXUQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
