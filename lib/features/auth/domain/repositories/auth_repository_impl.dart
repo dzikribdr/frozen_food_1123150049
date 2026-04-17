@@ -1,6 +1,6 @@
 import 'package:frozen_food_1123150049/core/constants/app_constants.dart';
 import 'package:frozen_food_1123150049/core/services/dio_client.dart';
-import 'package:frozen_food_1123150049/features/dashboard/domain/repositories/auth_repository.dart';
+import 'package:frozen_food_1123150049/features/auth/domain/repositories/auth_repository.dart';
 
 
 class AuthRepositoryImpl extends AuthRepository {
