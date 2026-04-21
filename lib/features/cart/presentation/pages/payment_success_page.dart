@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frozen_food_1123150049/core/constants/app_colors.dart';
 
 class PaymentSuccessPage extends StatelessWidget {
   final VoidCallback onSuccess;
@@ -19,7 +20,7 @@ class PaymentSuccessPage extends StatelessWidget {
                 width: 100,
                 height: 100,
                 decoration: BoxDecoration(
-                  color: Colors.green,
+                  color: AppColors.primary,
                   shape: BoxShape.circle,
                 ),
                 child: const Icon(
@@ -44,7 +45,7 @@ class PaymentSuccessPage extends StatelessWidget {
                 'Terima kasih telah berbelanja',
                 style: TextStyle(
                   fontSize: 16,
-                  color: Colors.grey[600],
+                  color: AppColors.textSecondary,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -54,7 +55,7 @@ class PaymentSuccessPage extends StatelessWidget {
                 margin: const EdgeInsets.symmetric(horizontal: 32),
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.blue[50],
+                  color: AppColors.background,
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Column(
@@ -90,7 +91,7 @@ class PaymentSuccessPage extends StatelessWidget {
                 icon: const Icon(Icons.home),
                 label: const Text('Kembali ke Beranda'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
+                  backgroundColor: AppColors.primary,
                   padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
                 ),
               ),

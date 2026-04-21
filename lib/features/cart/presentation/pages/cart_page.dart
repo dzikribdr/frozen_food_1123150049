@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:frozen_food_1123150049/core/constants/app_colors.dart';
 import '../providers/cart_provider.dart';
 import 'checkout_page.dart';
 
@@ -10,8 +11,17 @@ class CartPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Keranjang'),
+        title: const Text(
+          'Keranjang Belanja',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: AppColors.textPrimary,
+          ),
+        ),
         centerTitle: true,
+        backgroundColor: AppColors.primary,
+        elevation: 1,
       ),
       body: Consumer<CartProvider>(
         builder: (context, cartProvider, _) {
@@ -20,11 +30,34 @@ class CartPage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.shopping_cart_outlined, size: 80, color: Colors.grey),
-                  const SizedBox(height: 16),
+                  Container(
+                    padding: const EdgeInsets.all(24),
+                    decoration: BoxDecoration(
+                      color: AppColors.primary.withOpacity(0.1),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.shopping_cart_outlined,
+                      size: 80,
+                      color: AppColors.primary,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
                   const Text(
                     'Keranjang Kosong',
-                    style: TextStyle(fontSize: 18, color: Colors.grey),
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Tambahkan produk untuk memulai belanja',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: AppColors.textSecondary,
+                    ),
                   ),
                 ],
               ),
@@ -33,28 +66,46 @@ class CartPage extends StatelessWidget {
 
           return Column(
             children: [
+              // Cart Items
               Expanded(
                 child: ListView.builder(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                   itemCount: cartProvider.items.length,
                   itemBuilder: (context, index) {
                     final item = cartProvider.items[index];
                     return Card(
-                      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      margin: const EdgeInsets.symmetric(vertical: 8),
+                      elevation: 1,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        side: BorderSide(color: Colors.grey.shade200),
+                      ),
                       child: Padding(
                         padding: const EdgeInsets.all(12),
                         child: Row(
                           children: [
-                            // Product Image Placeholder
+                            // Product Image
                             Container(
-                              width: 80,
-                              height: 80,
+                              width: 90,
+                              height: 90,
                               decoration: BoxDecoration(
-                                color: Colors.grey[300],
+                                color: AppColors.primary.withOpacity(0.1),
                                 borderRadius: BorderRadius.circular(8),
+                                border: Border.all(
+                                  color: AppColors.primary.withOpacity(0.3),
+                                ),
                               ),
                               child: item.imageUrl != null
-                                  ? Image.network(item.imageUrl!, fit: BoxFit.cover)
-                                  : const Icon(Icons.image, color: Colors.grey),
+                                  ? ClipRRect(
+                                      borderRadius: BorderRadius.circular(8),
+                                      child: Image.network(
+                                        item.imageUrl!,
+                                        fit: BoxFit.cover,
+                                        errorBuilder: (context, error, stackTrace) =>
+                                            Icon(Icons.image, color: AppColors.primary),
+                                      ),
+                                    )
+                                  : Icon(Icons.image, color: AppColors.primary, size: 40),
                             ),
                             const SizedBox(width: 12),
                             // Product Details
@@ -65,80 +116,103 @@ class CartPage extends StatelessWidget {
                                   Text(
                                     item.productName,
                                     style: const TextStyle(
-                                      fontSize: 16,
+                                      fontSize: 15,
                                       fontWeight: FontWeight.bold,
+                                      color: AppColors.textPrimary,
                                     ),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                  const SizedBox(height: 4),
+                                  const SizedBox(height: 6),
                                   Text(
                                     'Rp ${item.price.toStringAsFixed(0)}',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.grey[600],
+                                    style: const TextStyle(
+                                      fontSize: 13,
+                                      color: AppColors.textSecondary,
                                     ),
                                   ),
-                                  const SizedBox(height: 8),
-                                  Row(
-                                    children: [
-                                      IconButton(
-                                        onPressed: () {
-                                          if (item.quantity > 1) {
+                                  const SizedBox(height: 10),
+                                  // Quantity Control
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: AppColors.background,
+                                      borderRadius: BorderRadius.circular(8),
+                                      border: Border.all(
+                                        color: Colors.grey.shade300,
+                                      ),
+                                    ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        IconButton(
+                                          onPressed: () {
+                                            if (item.quantity > 1) {
+                                              cartProvider.updateItemQuantity(
+                                                item.productId,
+                                                item.quantity - 1,
+                                              );
+                                            }
+                                          },
+                                          icon: const Icon(Icons.remove),
+                                          iconSize: 18,
+                                          padding: const EdgeInsets.all(4),
+                                          constraints: const BoxConstraints(),
+                                          color: AppColors.primary,
+                                        ),
+                                        SizedBox(
+                                          width: 30,
+                                          child: Text(
+                                            '${item.quantity}',
+                                            textAlign: TextAlign.center,
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ),
+                                        IconButton(
+                                          onPressed: () {
                                             cartProvider.updateItemQuantity(
                                               item.productId,
-                                              item.quantity - 1,
+                                              item.quantity + 1,
                                             );
-                                          }
-                                        },
-                                        icon: const Icon(Icons.remove),
-                                        iconSize: 20,
-                                        padding: EdgeInsets.zero,
-                                        constraints: const BoxConstraints(),
-                                      ),
-                                      SizedBox(
-                                        width: 40,
-                                        child: Text(
-                                          '${item.quantity}',
-                                          textAlign: TextAlign.center,
-                                          style: const TextStyle(fontSize: 14),
+                                          },
+                                          icon: const Icon(Icons.add),
+                                          iconSize: 18,
+                                          padding: const EdgeInsets.all(4),
+                                          constraints: const BoxConstraints(),
+                                          color: AppColors.primary,
                                         ),
-                                      ),
-                                      IconButton(
-                                        onPressed: () {
-                                          cartProvider.updateItemQuantity(
-                                            item.productId,
-                                            item.quantity + 1,
-                                          );
-                                        },
-                                        icon: const Icon(Icons.add),
-                                        iconSize: 20,
-                                        padding: EdgeInsets.zero,
-                                        constraints: const BoxConstraints(),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
                             ),
-                            // Delete Button
+                            const SizedBox(width: 12),
+                            // Price and Delete
                             Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
+                                IconButton(
+                                  onPressed: () {
+                                    cartProvider.removeItem(item.productId);
+                                  },
+                                  icon: const Icon(Icons.close),
+                                  iconSize: 22,
+                                  color: Colors.red,
+                                  padding: EdgeInsets.zero,
+                                  constraints: const BoxConstraints(),
+                                ),
+                                const SizedBox(height: 8),
                                 Text(
                                   'Rp ${item.totalPrice.toStringAsFixed(0)}',
                                   style: const TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
+                                    color: AppColors.textPrimary,
                                   ),
-                                ),
-                                const SizedBox(height: 8),
-                                IconButton(
-                                  onPressed: () {
-                                    cartProvider.removeItem(item.productId);
-                                  },
-                                  icon: const Icon(Icons.delete, color: Colors.red),
-                                  iconSize: 20,
-                                  padding: EdgeInsets.zero,
-                                  constraints: const BoxConstraints(),
                                 ),
                               ],
                             ),
@@ -153,8 +227,17 @@ class CartPage extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.grey[100],
-                  border: Border(top: BorderSide(color: Colors.grey[300]!)),
+                  color: AppColors.surface,
+                  border: Border(
+                    top: BorderSide(color: Colors.grey.shade200),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.05),
+                      blurRadius: 10,
+                      offset: const Offset(0, -2),
+                    ),
+                  ],
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -163,21 +246,51 @@ class CartPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text(
+                          'Jumlah Item:',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: AppColors.textSecondary,
+                          ),
+                        ),
+                        Text(
+                          '${cartProvider.itemCount} item',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.textPrimary,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    Container(
+                      height: 1,
+                      color: Colors.grey.shade200,
+                    ),
+                    const SizedBox(height: 12),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
                           'Total Harga:',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.textPrimary,
+                          ),
                         ),
                         Text(
                           'Rp ${cartProvider.totalPrice.toStringAsFixed(0)}',
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
-                            color: Colors.green,
+                            color: AppColors.primary,
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 12),
-                    ElevatedButton(
+                    const SizedBox(height: 16),
+                    ElevatedButton.icon(
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -186,13 +299,16 @@ class CartPage extends StatelessWidget {
                           ),
                         );
                       },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue,
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                      ),
-                      child: const Text(
+                      icon: const Icon(Icons.arrow_forward),
+                      label: const Text(
                         'Lanjut ke Checkout',
-                        style: TextStyle(fontSize: 16, color: Colors.white),
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        foregroundColor: AppColors.textPrimary,
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        elevation: 2,
                       ),
                     ),
                   ],

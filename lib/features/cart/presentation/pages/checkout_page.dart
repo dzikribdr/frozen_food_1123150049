@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:frozen_food_1123150049/core/constants/app_colors.dart';
 import '../providers/cart_provider.dart';
 import 'payment_success_page.dart';
 
@@ -50,9 +51,18 @@ class _CheckoutPageState extends State<CheckoutPage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Checkout'),
+          title: const Text(
+            'Checkout',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: AppColors.textPrimary,
+            ),
+          ),
           centerTitle: true,
           automaticallyImplyLeading: !_isProcessing,
+          backgroundColor: AppColors.primary,
+          elevation: 1,
         ),
         body: Consumer<CartProvider>(
           builder: (context, cartProvider, _) {
@@ -61,11 +71,26 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.shopping_cart_outlined, size: 80, color: Colors.grey),
-                    const SizedBox(height: 16),
+                    Container(
+                      padding: const EdgeInsets.all(24),
+                      decoration: BoxDecoration(
+                        color: AppColors.primary.withOpacity(0.1),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.shopping_cart_outlined,
+                        size: 80,
+                        color: AppColors.primary,
+                      ),
+                    ),
+                    const SizedBox(height: 24),
                     const Text(
                       'Tidak Ada Item di Keranjang',
-                      style: TextStyle(fontSize: 18, color: Colors.grey),
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.textPrimary,
+                      ),
                     ),
                   ],
                 ),
@@ -79,24 +104,83 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     // Header Checkout Info
                     Container(
                       padding: const EdgeInsets.all(16),
-                      color: Colors.blue[50],
+                      decoration: BoxDecoration(
+                        color: AppColors.primary.withOpacity(0.1),
+                        border: Border(
+                          bottom: BorderSide(color: Colors.grey.shade200),
+                        ),
+                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Text(
                             'Ringkasan Pesanan',
-                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.textPrimary,
+                            ),
                           ),
                           const SizedBox(height: 12),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('Total Item: ${cartProvider.itemCount}'),
-                              Text(
-                                'Rp ${cartProvider.totalPrice.toStringAsFixed(0)}',
-                                style: const TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ],
+                          Container(
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: AppColors.surface,
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(color: Colors.grey.shade200),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Total Item',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: AppColors.textSecondary,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      '${cartProvider.itemCount} item',
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.textPrimary,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Container(
+                                  width: 1,
+                                  height: 40,
+                                  color: Colors.grey.shade300,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      'Total Harga',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: AppColors.textSecondary,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      'Rp ${cartProvider.totalPrice.toStringAsFixed(0)}',
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.primary,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -104,25 +188,42 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     // Item List
                     Expanded(
                       child: ListView.builder(
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                         itemCount: cartProvider.items.length,
                         itemBuilder: (context, index) {
                           final item = cartProvider.items[index];
                           return Card(
-                            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                            margin: const EdgeInsets.symmetric(vertical: 8),
+                            elevation: 1,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              side: BorderSide(color: Colors.grey.shade200),
+                            ),
                             child: Padding(
                               padding: const EdgeInsets.all(12),
                               child: Row(
                                 children: [
                                   Container(
-                                    width: 60,
-                                    height: 60,
+                                    width: 70,
+                                    height: 70,
                                     decoration: BoxDecoration(
-                                      color: Colors.grey[300],
+                                      color: AppColors.primary.withOpacity(0.1),
                                       borderRadius: BorderRadius.circular(8),
+                                      border: Border.all(
+                                        color: AppColors.primary.withOpacity(0.3),
+                                      ),
                                     ),
                                     child: item.imageUrl != null
-                                        ? Image.network(item.imageUrl!, fit: BoxFit.cover)
-                                        : const Icon(Icons.image, color: Colors.grey),
+                                        ? ClipRRect(
+                                            borderRadius: BorderRadius.circular(8),
+                                            child: Image.network(
+                                              item.imageUrl!,
+                                              fit: BoxFit.cover,
+                                              errorBuilder: (context, error, stackTrace) =>
+                                                  Icon(Icons.image, color: AppColors.primary),
+                                            ),
+                                          )
+                                        : Icon(Icons.image, color: AppColors.primary, size: 35),
                                   ),
                                   const SizedBox(width: 12),
                                   Expanded(
@@ -134,21 +235,29 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                           style: const TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.bold,
+                                            color: AppColors.textPrimary,
                                           ),
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
                                         ),
                                         const SizedBox(height: 4),
                                         Text(
                                           'Qty: ${item.quantity} x Rp ${item.price.toStringAsFixed(0)}',
-                                          style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            color: AppColors.textSecondary,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 6),
+                                        Text(
+                                          'Subtotal: Rp ${item.totalPrice.toStringAsFixed(0)}',
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w600,
+                                            color: AppColors.primary,
+                                          ),
                                         ),
                                       ],
-                                    ),
-                                  ),
-                                  Text(
-                                    'Rp ${item.totalPrice.toStringAsFixed(0)}',
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ],
@@ -162,8 +271,17 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: Colors.grey[100],
-                        border: Border(top: BorderSide(color: Colors.grey[300]!)),
+                        color: AppColors.surface,
+                        border: Border(
+                          top: BorderSide(color: Colors.grey.shade200),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.05),
+                            blurRadius: 10,
+                            offset: const Offset(0, -2),
+                          ),
+                        ],
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -172,10 +290,11 @@ class _CheckoutPageState extends State<CheckoutPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               const Text(
-                                'Total Harga:',
+                                'Total Pembayaran:',
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
+                                  color: AppColors.textPrimary,
                                 ),
                               ),
                               Text(
@@ -183,31 +302,39 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                 style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.green,
+                                  color: AppColors.primary,
                                 ),
                               ),
                             ],
                           ),
-                          const SizedBox(height: 12),
-                          ElevatedButton(
+                          const SizedBox(height: 16),
+                          ElevatedButton.icon(
                             onPressed: _isProcessing ? null : _processCheckout,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.green,
-                              padding: const EdgeInsets.symmetric(vertical: 16),
-                            ),
-                            child: _isProcessing
+                            icon: _isProcessing
                                 ? const SizedBox(
-                                    height: 24,
-                                    width: 24,
+                                    height: 20,
+                                    width: 20,
                                     child: CircularProgressIndicator(
-                                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                        AppColors.textPrimary,
+                                      ),
                                       strokeWidth: 2,
                                     ),
                                   )
-                                : const Text(
-                                    'Checkout',
-                                    style: TextStyle(fontSize: 16, color: Colors.white),
-                                  ),
+                                : const Icon(Icons.payment),
+                            label: Text(
+                              _isProcessing ? 'Memproses...' : 'Lanjutkan Pembayaran',
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.primary,
+                              foregroundColor: AppColors.textPrimary,
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              elevation: 2,
+                            ),
                           ),
                         ],
                       ),
