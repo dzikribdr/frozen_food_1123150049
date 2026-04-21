@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frozen_food_1123150049/core/constants/app_colors.dart';
 
 enum ButtonVariant { primary, outlined, text }
 
@@ -26,7 +27,7 @@ class CustomButton extends StatelessWidget {
             height: 20,
             child: CircularProgressIndicator(
               strokeWidth: 2,
-              color: Colors.white,
+              color: AppColors.textPrimary,
             ),
           )
         : Row(
@@ -50,8 +51,8 @@ class CustomButton extends StatelessWidget {
         ButtonVariant.primary => ElevatedButton(
           onPressed: isLoading ? null : onPressed,
           style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFF1565C0),
-            foregroundColor: Colors.white,
+            backgroundColor: AppColors.primary,
+            foregroundColor: AppColors.textPrimary,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
@@ -62,7 +63,7 @@ class CustomButton extends StatelessWidget {
         ButtonVariant.outlined => OutlinedButton(
           onPressed: isLoading ? null : onPressed,
           style: OutlinedButton.styleFrom(
-            side: const BorderSide(color: Color(0xFF1565C0), width: 1.5),
+            side: BorderSide(color: AppColors.primary, width: 1.5),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),

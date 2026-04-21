@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frozen_food_1123150049/core/constants/app_colors.dart';
 
 class LoadingOverlay extends StatelessWidget {
   final Widget child;
@@ -30,7 +31,9 @@ class LoadingOverlay extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const CircularProgressIndicator(),
+                    const CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+                    ),
                     if (message != null) ...[
                       const SizedBox(height: 16),
                       Text(message!, style: const TextStyle(fontSize: 14)),
