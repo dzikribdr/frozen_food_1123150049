@@ -5,6 +5,7 @@ import 'package:frozen_food_1123150049/core/routes/app_router.dart';
 import 'package:frozen_food_1123150049/core/widgets/auth_header.dart';
 import 'package:frozen_food_1123150049/core/widgets/custom_button.dart';
 import 'package:frozen_food_1123150049/features/auth/presentation/providers/auth_provider.dart';
+import 'package:frozen_food_1123150049/core/constants/app_colors.dart';
 import 'package:provider/provider.dart';
 
 
@@ -85,7 +86,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                 title: 'Verifikasi Email Kamu',
                 subtitle:
                     'Kami sudah mengirim link verifikasi ke email di bawah ini.',
-                iconColor: Colors.orange,
+                iconColor: AppColors.primary,
               ),
               const SizedBox(height: 24),
 
@@ -114,10 +115,13 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const SizedBox(
+                  SizedBox(
                     width: 16,
                     height: 16,
-                    child: CircularProgressIndicator(strokeWidth: 2),
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+                    ),
                   ),
                   const SizedBox(width: 12),
                   Text(

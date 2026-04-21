@@ -6,6 +6,7 @@ import 'package:frozen_food_1123150049/core/widgets/custom_button.dart';
 import 'package:frozen_food_1123150049/core/widgets/custom_text_field.dart';
 import 'package:frozen_food_1123150049/core/widgets/loading_overlay.dart';
 import 'package:frozen_food_1123150049/features/auth/presentation/providers/auth_provider.dart';
+import 'package:frozen_food_1123150049/core/constants/app_colors.dart';
 import 'package:provider/provider.dart';
 
 
@@ -51,7 +52,7 @@ class _RegisterPageState extends State<RegisterPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(auth.errorMessage ?? 'Pendaftaran gagal'),
-          backgroundColor: Colors.red,
+          backgroundColor: AppColors.error,
         ),
       );
     }
@@ -155,10 +156,10 @@ class _RegisterPageState extends State<RegisterPage> {
                           context,
                           AppRouter.login,
                         ),
-                        child: const Text(
+                        child: Text(
                           'Masuk',
                           style: TextStyle(
-                            color: Color(0xFF1565C0),
+                            color: AppColors.primary,
                             fontWeight: FontWeight.bold,
                           ),
                         ),

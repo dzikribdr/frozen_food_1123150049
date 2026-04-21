@@ -10,6 +10,7 @@ import 'package:frozen_food_1123150049/core/widgets/google_sign_in_button.dart';
 import 'package:frozen_food_1123150049/core/widgets/loading_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:frozen_food_1123150049/features/auth/presentation/providers/auth_provider.dart';
+import 'package:frozen_food_1123150049/core/constants/app_colors.dart';
 
 
 
@@ -65,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(auth.errorMessage ?? 'Login gagal'),
-          backgroundColor: Colors.red,
+          backgroundColor: AppColors.error,
         ),
       );
     }
@@ -184,13 +185,13 @@ class _LoginPageState extends State<LoginPage> {
                           context,
                           AppRouter.register,
                         ),
-                        child: const Text(
-                          'Daftar',
-                          style: TextStyle(
-                            color: Color(0xFF1565C0),
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                        child: Text(
+  'Daftar',
+  style: TextStyle(
+    color: AppColors.primary,
+    fontWeight: FontWeight.bold,
+  ),
+),
                       ),
                     ],
                   ),
