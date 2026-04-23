@@ -1,16 +1,62 @@
-# frozen_food_1123150049
+# 🧊 Aplikasi Frozen Food
 
-A new Flutter project.
+Aplikasi mobile sederhana untuk catalog dan checkout produk frozen food menggunakan Flutter, Firebase, dan backend Golang.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## 🚀 Fitur
 
-A few resources to get you started if this is your first Flutter project:
+- Login & Register (Firebase)
+- Email Verification
+- Catalog Produk
+- Keranjang (Cart)
+- Checkout (Simulasi)
+- Integrasi Backend (JWT)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+---
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 🏗️ Struktur
+lib/
+├── core/
+├── features/
+│ ├── auth/
+│ ├── cart/
+│ ├── dashboard/
+
+---
+
+## 🔐 Alur Singkat
+
+1. Login via Firebase  
+2. Dapat ID Token  
+3. Kirim ke backend  
+4. Backend return JWT  
+5. JWT dipakai untuk API  
+
+---
+
+## ▶️ Cara Menjalankan
+
+### Flutter
+git clone https://github.com/dzikribdr/frozen_food_1123150049
+cd frozen_food_1123150049
+flutter pub get
+flutter run
+
+### Backend
+git clone https://github.com/dzikribdr/gin-firebase-backend
+cd gin-firebase-backend
+go run main.go
+
+---
+
+## 🎬 Demo Video
+
+https://youtu.be/2nmfudfP-Ic
+
+---
+
+## 👤 Author
+
+Dzikri Abdurrahman Haris
+https://github.com/dzikribdr
