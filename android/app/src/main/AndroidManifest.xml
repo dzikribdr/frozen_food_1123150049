@@ -20,10 +20,26 @@
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
               />
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+            <!-- SEBELUM: hanya ada intent-filter untuk launcher -->    
+            <intent-filter>    
+                <action android:name="android.intent.action.MAIN"/>    
+                <category android:name="android.intent.category.LAUNCHER"/>    
+            </intent-filter>    
+                
+            <!-- SESUDAH: tambah intent-filter callback -->    
+            <intent-filter>    
+                <action android:name="android.intent.action.MAIN"/>    
+                <category android:name="android.intent.category.LAUNCHER"/>    
+            </intent-filter>    
+                
+            <!-- Callback deeplink dari Dompet Kampus Global -->    
+            <intent-filter android:autoVerify="false">    
+                <action android:name="android.intent.action.VIEW"/>    
+                <category android:name="android.intent.category.DEFAULT"/>    
+                <category android:name="android.intent.category.BROWSABLE"/>    
+                <data android:scheme="pasarmalam" android:host="payment-callback"/>    
+            </intent-filter>    
+
         </activity>
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
@@ -36,10 +52,19 @@
          https://developer.android.com/reference/android/content/Intent#ACTION_PROCESS_TEXT.
 
          In particular, this is used by the Flutter engine in io.flutter.plugin.text.ProcessTextPlugin. -->
-    <queries>
-        <intent>
-            <action android:name="android.intent.action.PROCESS_TEXT"/>
-            <data android:mimeType="text/plain"/>
-        </intent>
-    </queries>
+     <!-- SEBELUM -->    
+    <queries>    
+        <intent>    
+            <action android:name="android.intent.action.VIEW"/>    
+            <data android:scheme="gojek"/>   <!-- ← GoPay -->    
+        </intent>    
+    </queries>    
+         
+    <!-- SESUDAH -->    
+    <queries>    
+        <intent>    
+            <action android:name="android.intent.action.VIEW"/>    
+            <data android:scheme="dompetkampus"/>   <!-- ← Dompet Kampus Global -->    
+        </intent>    
+    </queries>  
 </manifest>
