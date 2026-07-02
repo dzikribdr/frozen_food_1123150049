@@ -1,4 +1,4 @@
-class CartItem {
+class CartItemModel {
   final String id;
   final String productId;
   final String productName;
@@ -6,7 +6,7 @@ class CartItem {
   int quantity;
   final String? imageUrl;
 
-  CartItem({
+  CartItemModel({
     required this.id,
     required this.productId,
     required this.productName,
@@ -17,7 +17,7 @@ class CartItem {
 
   double get totalPrice => price * quantity;
 
-  CartItem copyWith({
+  CartItemModel copyWith({
     String? id,
     String? productId,
     String? productName,
@@ -25,7 +25,7 @@ class CartItem {
     int? quantity,
     String? imageUrl,
   }) {
-    return CartItem(
+    return CartItemModel(
       id: id ?? this.id,
       productId: productId ?? this.productId,
       productName: productName ?? this.productName,
