@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:frozen_food_1123150049/features/cart/data/models/cart_item_model.dart';
 import 'package:frozen_food_1123150049/features/cart/data/models/cart_model.dart';
 import 'package:frozen_food_1123150049/features/cart/data/repositories/cart_repository_impl.dart';
 import 'package:frozen_food_1123150049/features/cart/domain/repositories/cart_repository.dart';
@@ -18,7 +19,16 @@ class CartProvider extends ChangeNotifier {
   CartModel? get cart => _cart;
   String? get error => _error;
   bool get isAdding => _isAdding;
+
+  /// ===========================
+  /// Compatibility Getter
+  /// ===========================
+
+  List<CartItemModel> get items => _cart?.items ?? const [];
+
   int get itemCount => _cart?.itemCount ?? 0;
+
+  double get totalPrice => _cart?.total ?? 0;
 
   void _setLoading() {
     _status = CartStatus.loading;
@@ -34,6 +44,7 @@ class CartProvider extends ChangeNotifier {
 
   Future<void> fetchCart() async {
     _setLoading();
+
     try {
       _cart = await _repository.getCart();
       _status = CartStatus.loaded;
@@ -46,29 +57,38 @@ class CartProvider extends ChangeNotifier {
       _setError('Terjadi kesalahan: $e');
       return;
     }
+
     notifyListeners();
   }
 
   Future<bool> addToCart(int productId, int quantity) async {
     _isAdding = true;
     notifyListeners();
+
     try {
       await _repository.addToCart(productId, quantity);
+
       await fetchCart();
+
       _isAdding = false;
       notifyListeners();
+
       return true;
     } on DioException catch (e) {
       _error =
           e.response?.data['message'] as String? ??
           'Gagal menambah ke keranjang';
+
       _isAdding = false;
       notifyListeners();
+
       return false;
     } catch (e) {
       _error = 'Terjadi kesalahan: $e';
+
       _isAdding = false;
       notifyListeners();
+
       return false;
     }
   }
@@ -76,6 +96,7 @@ class CartProvider extends ChangeNotifier {
   Future<void> updateItem(int cartItemId, int quantity) async {
     try {
       await _repository.updateCartItem(cartItemId, quantity);
+
       await fetchCart();
     } on DioException catch (e) {
       _setError(
@@ -89,6 +110,7 @@ class CartProvider extends ChangeNotifier {
   Future<void> removeItem(int cartItemId) async {
     try {
       await _repository.removeCartItem(cartItemId);
+
       await fetchCart();
     } on DioException catch (e) {
       _setError(
@@ -102,8 +124,11 @@ class CartProvider extends ChangeNotifier {
   Future<void> clearCart() async {
     try {
       await _repository.clearCart();
+
       _cart = const CartModel(items: [], total: 0, itemCount: 0);
+
       _status = CartStatus.loaded;
+
       notifyListeners();
     } on DioException catch (e) {
       _setError(
