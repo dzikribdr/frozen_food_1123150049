@@ -18,14 +18,14 @@ class UserModel {
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
-    id: json['id'] as int,
-    firebaseUid: json['firebase_uid'] as String,
-    email: json['email'] as String,
-    name: json['name'] as String,
-    role: json['role'] as String,
-    emailVerified: json['email_verified'] as bool,
-    createdAt: json['created_at'] as String,
-  );
+        id: json['id'] as int,
+        firebaseUid: json['firebase_uid'] as String,
+        email: json['email'] as String,
+        name: json['name'] as String,
+        role: json['role'] as String,
+        emailVerified: json['email_verified'] as bool,
+        createdAt: json['created_at'] as String,
+      );
 }
 
 class AuthResponseModel {
