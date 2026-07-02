@@ -17,6 +17,8 @@ dependencies:
   provider: ^6.1.5+1
   firebase_core: ^4.6.0
   firebase_auth: ^6.3.0
+  firebase_messaging: ^16.0.2
+  flutter_local_notifications: ^19.4.2
   google_sign_in: ^6.2.1
   dio: ^5.9.2
   equatable: ^2.0.8

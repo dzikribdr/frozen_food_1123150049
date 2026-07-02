@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_biometric_kit/flutter_biometric_kit.dart';
+import 'package:frozen_food_1123150049/flutter_biometric_kit.dart';
 
 class BiometricLockProvider extends ChangeNotifier {
   final BiometricService _service = BiometricService();
@@ -48,7 +48,9 @@ class BiometricLockProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      await _service.authenticate(reason: 'Verifikasi untuk membuka Pasar Malam');
+      await _service.authenticate(
+        reason: 'Verifikasi untuk membuka Pasar Malam',
+      );
       _isLocked = false;
       _errorMessage = null;
       _errorCode = null;

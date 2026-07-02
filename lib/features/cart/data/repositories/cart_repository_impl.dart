@@ -7,7 +7,9 @@ class CartRepositoryImpl implements CartRepository {
   @override
   Future<CartModel> getCart() async {
     final response = await DioClient.instance.get(ApiConstants.cart);
+
     final data = response.data['data'] as Map<String, dynamic>;
+
     return CartModel.fromJson(data);
   }
 

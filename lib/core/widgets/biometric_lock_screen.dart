@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_biometric_kit/flutter_biometric_kit.dart';
+import 'package:frozen_food_1123150049/flutter_biometric_kit.dart';
 import 'package:provider/provider.dart';
 
 import '../services/biometric_lock_provider.dart';
@@ -140,8 +140,11 @@ class _BiometricLockScreenState extends State<BiometricLockScreen>
                     ),
                     child: Row(
                       children: [
-                        Icon(Icons.warning_amber_rounded,
-                            color: Colors.red.shade400, size: 18),
+                        Icon(
+                          Icons.warning_amber_rounded,
+                          color: Colors.red.shade400,
+                          size: 18,
+                        ),
                         const SizedBox(width: 8),
                         Expanded(
                           child: Text(
@@ -163,8 +166,9 @@ class _BiometricLockScreenState extends State<BiometricLockScreen>
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton.icon(
-                    onPressed:
-                        provider.isAuthenticating ? null : provider.unlock,
+                    onPressed: provider.isAuthenticating
+                        ? null
+                        : provider.unlock,
                     icon: const Icon(Icons.fingerprint),
                     label: const Text('Buka Kunci'),
                     style: ElevatedButton.styleFrom(
