@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:frozen_food_1123150049/core/routes/app_router.dart';
 import 'package:frozen_food_1123150049/features/order/data/models/order_model.dart';
+import 'package:frozen_food_1123150049/features/order/presentation/pages/order_detail_page.dart';
 import 'package:frozen_food_1123150049/features/order/presentation/providers/order_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -58,7 +60,7 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Pesanan Saya')),
+      appBar: AppBar(title: const Text('Transaksi')),
       body: Consumer<OrderProvider>(
         builder: (context, orderProv, _) {
           if (orderProv.checkoutStatus == OrderStatus.loading) {
@@ -98,11 +100,21 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'Belum ada pesanan',
+                    'Belum ada transaksi',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       color: Theme.of(
                         context,
                       ).colorScheme.onSurface.withValues(alpha: 0.5),
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    'Hasil checkout kamu bakal muncul di sini',
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onSurface.withValues(alpha: 0.4),
                     ),
                   ),
                 ],
@@ -175,94 +187,191 @@ class _OrderCard extends StatelessWidget {
     }
   }
 
+  ({String label, IconData icon, Color color}) _paymentInfo(String method) {
+    switch (method) {
+      case 'global_institute_pay':
+        return (
+          label: 'CashLess',
+          icon: Icons.account_balance_wallet_rounded,
+          color: const Color(0xFF1A237E),
+        );
+      case 'bank_transfer':
+        return (
+          label: 'Transfer Bank',
+          icon: Icons.account_balance_rounded,
+          color: const Color(0xFF1565C0),
+        );
+      case 'virtual_account':
+        return (
+          label: 'Virtual Account',
+          icon: Icons.credit_card_rounded,
+          color: const Color(0xFFE65100),
+        );
+      default:
+        return (
+          label: method.isEmpty ? '-' : method,
+          icon: Icons.payments_rounded,
+          color: Colors.grey,
+        );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final surface = Theme.of(context).colorScheme.surface;
     final onSurface = Theme.of(context).colorScheme.onSurface;
     final primary = Theme.of(context).colorScheme.primary;
     final statusColor = _statusColor(order.status);
+    final payment = _paymentInfo(order.paymentMethod);
+    final isPendingCashless =
+        order.status == 'pending' && order.paymentMethod == 'global_institute_pay';
 
-    return Container(
-      decoration: BoxDecoration(
-        color: surface,
+    return Material(
+      color: Colors.transparent,
+      borderRadius: BorderRadius.circular(16),
+      child: InkWell(
         borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.06),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => OrderDetailPage(order: order)),
+        ),
+        child: Container(
+          decoration: BoxDecoration(
+            color: surface,
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.06),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ],
           ),
-        ],
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Header: order id + status chip
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Header: order id + status chip
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Order #${order.id}',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: primary,
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: statusColor.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Text(
+                        _statusLabel(order.status),
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600,
+                          color: statusColor,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 6),
+                // Tanggal
                 Text(
-                  'Order #${order.id}',
+                  formatDate(order.createdAt),
                   style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: primary,
+                    fontSize: 12,
+                    color: onSurface.withValues(alpha: 0.5),
                   ),
                 ),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 4,
-                  ),
-                  decoration: BoxDecoration(
-                    color: statusColor.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    _statusLabel(order.status),
-                    style: TextStyle(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w600,
-                      color: statusColor,
+                const Divider(height: 20),
+                // Metode pembayaran
+                Row(
+                  children: [
+                    Icon(payment.icon, size: 16, color: payment.color),
+                    const SizedBox(width: 6),
+                    Text(
+                      payment.label,
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                        color: payment.color,
+                      ),
+                    ),
+                    const Spacer(),
+                    Text(
+                      '${order.items.length} item',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: onSurface.withValues(alpha: 0.5),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                // Total
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Total Pembayaran',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: onSurface.withValues(alpha: 0.7),
+                      ),
+                    ),
+                    Text(
+                      formatPrice(order.totalAmount),
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: onSurface,
+                      ),
+                    ),
+                  ],
+                ),
+
+                // Tombol lanjutkan bayar — muncul kalau masih pending & via CashLess
+                if (isPendingCashless) ...[
+                  const SizedBox(height: 12),
+                  SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton.icon(
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: const Color(0xFF1A237E),
+                        side: const BorderSide(color: Color(0xFF1A237E)),
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      icon: const Icon(Icons.open_in_new_rounded, size: 16),
+                      label: const Text(
+                        'Lanjutkan Pembayaran',
+                        style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+                      ),
+                      onPressed: () {
+                        Navigator.pushNamed(
+                          context,
+                          AppRouter.paymentPending,
+                          arguments: order,
+                        );
+                      },
                     ),
                   ),
-                ),
+                ],
               ],
             ),
-            const SizedBox(height: 6),
-            // Tanggal
-            Text(
-              formatDate(order.createdAt),
-              style: TextStyle(
-                fontSize: 12,
-                color: onSurface.withValues(alpha: 0.5),
-              ),
-            ),
-            const Divider(height: 20),
-            // Jumlah item + total
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  '${order.items.length} item',
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: onSurface.withValues(alpha: 0.7),
-                  ),
-                ),
-                Text(
-                  formatPrice(order.totalAmount),
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: onSurface,
-                  ),
-                ),
-              ],
-            ),
-          ],
+          ),
         ),
       ),
     );

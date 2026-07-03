@@ -38,7 +38,7 @@ class _PaymentPendingPageState extends State<PaymentPendingPage>
     WidgetsBinding.instance.addObserver(this);
 
     if (widget.order.paymentMethod == 'global_institute_pay') {
-      _log(' Akan auto-launch Dompet Kampus Global setelah frame pertama');
+      _log(' Akan auto-launch CashLess E-Wallet setelah frame pertama');
       WidgetsBinding.instance.addPostFrameCallback(
         (_) => _launchGlobalInstitutePay(),
       );
@@ -144,7 +144,7 @@ class _PaymentPendingPageState extends State<PaymentPendingPage>
       _log('canLaunchUrl=false — tetap mencoba launchUrl langsung...');
       _log('Kemungkinan penyebab false-negatif:');
       _log('1. APK belum di-rebuild setelah perubahan AndroidManifest.xml');
-      _log('2. Aplikasi Dompet Kampus Global belum terinstal di perangkat ini');
+      _log('2. Aplikasi CashLess E-Wallet belum terinstal di perangkat ini');
     }
 
     _log(' Memanggil launchUrl (mode=externalApplication)...');
@@ -155,7 +155,7 @@ class _PaymentPendingPageState extends State<PaymentPendingPage>
       );
       _log('launchUrl → $launched');
       if (launched) {
-        _log(' Dompet Kampus Global berhasil dibuka');
+        _log(' CashLess E-Wallet berhasil dibuka');
         setState(() => _payLaunched = true);
       } else {
         _log('launchUrl=false — aplikasi ada tapi tidak merespons');
@@ -164,7 +164,7 @@ class _PaymentPendingPageState extends State<PaymentPendingPage>
       }
     } catch (e) {
       _log(' Exception launchUrl: $e');
-      _log('→ Aplikasi Dompet Kampus Global kemungkinan tidak terinstal');
+      _log('→ Aplikasi CashLess E-Wallet kemungkinan tidak terinstal');
       if (!mounted) return;
       _showAppNotFoundDialog();
     }
@@ -213,12 +213,12 @@ class _PaymentPendingPageState extends State<PaymentPendingPage>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Aplikasi Dompet Kampus Global tidak terinstal di perangkat ini.',
+              'Aplikasi CashLess E-Wallet tidak terinstal di perangkat ini.',
             ),
             SizedBox(height: 12),
             Text(
               'Pesanan Anda tetap tersimpan. Lakukan pembayaran melalui aplikasi '
-              'Dompet Kampus Global, lalu kembali untuk mengecek status.',
+              'CashLess E-Wallet, lalu kembali untuk mengecek status.',
               style: TextStyle(fontSize: 13, color: Colors.grey),
             ),
           ],
@@ -670,7 +670,7 @@ class _GlobalInstitutePayBody extends StatelessWidget {
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
-                    'Pembayaran akan diverifikasi dengan PIN dan kode 2FA di aplikasi Dompet Kampus Global',
+                    'Pembayaran akan diverifikasi dengan PIN dan kode 2FA di aplikasi CashLess E-Wallet',
                     style: TextStyle(
                       fontSize: 12,
                       color: _brandColor.withValues(alpha: 0.85),
@@ -704,8 +704,8 @@ class _GlobalInstitutePayBody extends StatelessWidget {
                 _StepItem(
                   number: '1',
                   text: payLaunched
-                      ? 'Aplikasi Dompet Kampus Global sudah dibuka'
-                      : 'Kamu akan diarahkan ke Dompet Kampus Global',
+                      ? 'Aplikasi CashLess E-Wallet sudah dibuka'
+                      : 'Kamu akan diarahkan ke CashLess E-Wallet',
                   done: payLaunched,
                 ),
                 const SizedBox(height: 14),
@@ -728,7 +728,7 @@ class _GlobalInstitutePayBody extends StatelessWidget {
 
           const SizedBox(height: 28),
 
-          // ── Tombol buka Dompet Kampus Global ─────────────────
+          // ── Tombol buka CashLess E-Wallet ─────────────────
           SizedBox(
             width: double.infinity,
             child: ElevatedButton.icon(
@@ -743,8 +743,8 @@ class _GlobalInstitutePayBody extends StatelessWidget {
               icon: const Icon(Icons.open_in_new),
               label: Text(
                 payLaunched
-                    ? 'Buka Kembali Dompet Kampus Global'
-                    : 'Buka Dompet Kampus Global',
+                    ? 'Buka Kembali CashLess E-Wallet'
+                    : 'Buka CashLess E-Wallet',
                 style: const TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
@@ -763,7 +763,7 @@ class _GlobalInstitutePayBody extends StatelessWidget {
 
           if (payStatus == PaymentCheckStatus.idle && payLaunched)
             Text(
-              'Menunggu konfirmasi pembayaran dari Dompet Kampus Global...',
+              'Menunggu konfirmasi pembayaran dari CashLess E-Wallet...',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 13,

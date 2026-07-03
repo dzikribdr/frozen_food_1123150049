@@ -244,6 +244,9 @@ class _DashboardPageState extends State<DashboardPage> {
                       context.read<CartProvider>().fetchCart();
                     }
                   });
+                } else if (i == 2) {
+                  // Transaksi → navigate to MyOrdersPage (hasil checkout & status pembayaran)
+                  Navigator.pushNamed(context, AppRouter.myOrders);
                 } else if (i == 3) {
                   // Account → logout dialog
                   _showLogoutDialog(context, auth);
@@ -356,7 +359,7 @@ class _BannerCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 const Text(
-                  'Get Discount up to 50%\nfor the first transaction',
+                  'Get your favorite items\n with special discounts',
                   style: TextStyle(
                     color: Colors.white70,
                     fontSize: 12,
@@ -907,7 +910,7 @@ class _BottomNav extends StatelessWidget {
     const items = [
       _NavItem(icon: Icons.home_rounded, label: 'Home'),
       _NavItem(icon: Icons.shopping_bag_outlined, label: 'Cart'),
-      _NavItem(icon: Icons.favorite_border, label: 'Favorite'),
+      _NavItem(icon: Icons.receipt_long_outlined, label: 'Transaksi'),
       _NavItem(icon: Icons.person_outline, label: 'Account'),
     ];
 

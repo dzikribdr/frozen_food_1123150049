@@ -22,7 +22,7 @@ class NotificationService {
 
   static const _androidChannel = AndroidNotificationChannel(
     'frozen_food_1123150049_default',
-    'Pasar Malam Notifications',
+    'Frozen Food Notifications',
     description: 'Notifikasi order dan promo',
     importance: Importance.high,
   );

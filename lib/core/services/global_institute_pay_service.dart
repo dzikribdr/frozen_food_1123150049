@@ -30,8 +30,8 @@ class PaymentCallbackData {
 
 // ── Service ───────────────────────────────────────────────────
 
-/// Mengelola deeplink keluar ke Dompet Kampus Global
-/// dan deeplink masuk (callback pembayaran) ke Pasar Malam.
+/// Mengelola deeplink keluar ke CashLess E-Wallet
+/// dan deeplink masuk (callback pembayaran) ke Frozen Food.
 class GlobalInstitutePayService {
   static final GlobalInstitutePayService _instance =
       GlobalInstitutePayService._();
@@ -100,7 +100,7 @@ class GlobalInstitutePayService {
       'path=${uri.path} params=${uri.queryParameters} | coldStart=$isColdStart',
     );
 
-    // Filter: hanya proses callback Pasar Malam
+    // Filter: hanya proses callback Frozen Food
     if (uri.scheme != 'pasarmalam') {
       _log(_tag, '⏩ Diabaikan — bukan skema pasarmalam (scheme=${uri.scheme})');
       return;
@@ -132,7 +132,7 @@ class GlobalInstitutePayService {
 
   // ── Build URL keluar ─────────────────────────────────────────
 
-  /// Membangun URL deeplink ke Dompet Kampus Global sesuai spesifikasi.
+  /// Membangun URL deeplink ke CashLess E-Wallet sesuai spesifikasi.
   static String buildDeeplinkUrl({
     required int orderId,
     required double amount,
@@ -147,7 +147,7 @@ class GlobalInstitutePayService {
 
     _log(_tag, ' Membangun deeplink URL:');
     _log(_tag, 'merchant_id : MCH_frozen_food_1123150049');
-    _log(_tag, 'merchant_name: Pasar Malam');
+    _log(_tag, 'merchant_name: Frozen Food');
     _log(_tag, 'amount : ${amount.toInt()}');
     _log(_tag, 'description : $desc');
     _log(_tag, 'reference : INV-$orderId');
@@ -158,7 +158,7 @@ class GlobalInstitutePayService {
       host: host,
       queryParameters: {
         'merchant_id': 'MCH_frozen_food_1123150049',
-        'merchant_name': 'Pasar Malam',
+        'merchant_name': 'Frozen Food',
         'amount': amount.toInt().toString(),
         'description': desc,
         'reference': 'INV-$orderId',

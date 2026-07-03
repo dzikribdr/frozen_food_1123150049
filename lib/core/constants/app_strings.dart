@@ -1,6 +1,6 @@
 class AppStrings {
   // App
-  static const String appName = 'Pasar Malam';
+  static const String appName = 'Frozen Food';
 
   // Auth
   static const String register = 'Daftar';
@@ -18,7 +18,8 @@ class AppStrings {
   static const String registerSuccess = 'Pendaftaran berhasil';
   static const String logoutSuccess = 'Logout berhasil';
   static const String emailVerificationSent = 'Email verifikasi sudah dikirim';
-  static const String emailVerificationResent = 'Email verifikasi sudah dikirim ulang';
+  static const String emailVerificationResent =
+      'Email verifikasi sudah dikirim ulang';
 
   // Hints
   static const String emailHint = 'contoh@email.com';

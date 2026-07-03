@@ -9,6 +9,7 @@ import 'package:frozen_food_1123150049/features/dashboard/presentation/pages/das
 import 'package:frozen_food_1123150049/features/order/data/models/order_model.dart';
 import 'package:frozen_food_1123150049/features/order/presentation/pages/checkout_page.dart';
 import 'package:frozen_food_1123150049/features/order/presentation/pages/my_orders_page.dart';
+import 'package:frozen_food_1123150049/features/order/presentation/pages/order_detail_page.dart';
 import 'package:frozen_food_1123150049/features/order/presentation/pages/order_success_page.dart';
 import 'package:frozen_food_1123150049/features/order/presentation/pages/payment_pending_page.dart';
 import 'package:provider/provider.dart';
@@ -23,6 +24,7 @@ class AppRouter {
   static const String checkout = '/checkout';
   static const String orderSuccess = '/order-success';
   static const String myOrders = '/my-orders';
+  static const String orderDetail = '/order-detail';
   static const String paymentPending = '/payment-pending';
 
   static Map<String, WidgetBuilder> get routes => {
@@ -34,6 +36,10 @@ class AppRouter {
     cart: (_) => const CartPage(),
     checkout: (_) => const CheckoutPage(),
     myOrders: (_) => const MyOrdersPage(),
+    orderDetail: (context) {
+      final order = ModalRoute.of(context)!.settings.arguments as OrderModel;
+      return OrderDetailPage(order: order);
+    },
     orderSuccess: (context) {
       final order = ModalRoute.of(context)!.settings.arguments as OrderModel;
       return OrderSuccessPage(order: order);
