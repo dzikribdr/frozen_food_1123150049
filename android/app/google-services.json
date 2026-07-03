@@ -1,45 +1,44 @@
 {
   "project_info": {
-    "project_number": "971359225019",
-    "project_id": "uts-frozen-food",
-    "storage_bucket": "uts-frozen-food.firebasestorage.app"
+    "project_number": "1078657184802",
+    "project_id": "frozenfood-41367",
+    "storage_bucket": "frozenfood-41367.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:971359225019:android:6445b1f12375b14f02559e",
+        "mobilesdk_app_id": "1:1078657184802:android:d7b5aadc385f4d8d87c67b",
         "android_client_info": {
           "package_name": "com.example.frozen_food_1123150049"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1078657184802-ci9s6jj9r6hfrn4da4rvcsuch965o2kf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.frozen_food_1123150049",
+            "certificate_hash": "1ebbce8d130ffcc479a9006e141ade020d8fae4b"
+          }
+        },
+        {
+          "client_id": "1078657184802-j8ebvtogcfoi1th38r0an5aft3nfhi5u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyCGzpIgDSRmFd7ZmaT23y--7b7Z5qGGXUQ"
+          "current_key": "AIzaSyBF2mUtmlIbgbaOzTl1sFQEBMheSUmavXw"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:971359225019:android:da5d47b2119d46b302559e",
-        "android_client_info": {
-          "package_name": "com.example.frozen_food_1123150059"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCGzpIgDSRmFd7ZmaT23y--7b7Z5qGGXUQ"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1078657184802-j8ebvtogcfoi1th38r0an5aft3nfhi5u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
