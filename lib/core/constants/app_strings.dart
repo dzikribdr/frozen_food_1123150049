@@ -7,7 +7,6 @@ class AppStrings {
   static const String login = 'Masuk';
   static const String logout = 'Keluar';
   static const String email = 'Email';
-
   static const String password = 'Password';
   static const String confirmPassword = 'Konfirmasi Password';
   static const String fullName = 'Nama Lengkap';
@@ -19,10 +18,11 @@ class AppStrings {
   static const String registerSuccess = 'Pendaftaran berhasil';
   static const String logoutSuccess = 'Logout berhasil';
   static const String emailVerificationSent = 'Email verifikasi sudah dikirim';
-  static const String emailVerificationResent = 'Email verifikasi sudah dikirim ulang';
+  static const String emailVerificationResent =
+      'Email verifikasi sudah dikirim ulang';
 
   // Hints
-  static const String emailHint = 'fufufafa@gmail.com';
+  static const String emailHint = 'contoh@email.com';
   static const String passwordHint = 'Minimal 8 karakter';
   static const String nameHint = 'Masukkan nama lengkap';
 

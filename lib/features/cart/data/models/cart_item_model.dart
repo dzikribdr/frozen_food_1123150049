@@ -1,37 +1,62 @@
-class CartItem {
-  final String id;
-  final String productId;
-  final String productName;
-  final double price;
-  int quantity;
-  final String? imageUrl;
+import 'cart_model.dart';
 
-  CartItem({
+class CartItemModel {
+  final int id;
+  final int productId;
+  final CartProductModel product;
+  final int quantity;
+  final double subtotal;
+
+  const CartItemModel({
     required this.id,
     required this.productId,
-    required this.productName,
-    required this.price,
+    required this.product,
     required this.quantity,
-    this.imageUrl,
+    required this.subtotal,
   });
 
-  double get totalPrice => price * quantity;
+  // Compatibility Getter
+  String get productName => product.name;
 
-  CartItem copyWith({
-    String? id,
-    String? productId,
-    String? productName,
-    double? price,
+  double get price => product.price;
+
+  String? get imageUrl => product.imageUrl;
+
+  double get totalPrice => subtotal;
+
+  factory CartItemModel.fromJson(Map<String, dynamic> json) {
+    final product = CartProductModel.fromJson(
+      json['product'] as Map<String, dynamic>? ?? {},
+    );
+
+    final quantity = json['quantity'] as int? ?? 0;
+
+    final apiSubtotal = (json['subtotal'] as num?)?.toDouble() ?? 0.0;
+
+    final subtotal = apiSubtotal > 0 ? apiSubtotal : product.price * quantity;
+
+    return CartItemModel(
+      id: json['ID'] as int? ?? json['id'] as int? ?? 0,
+      productId: json['product_id'] as int? ?? 0,
+      product: product,
+      quantity: quantity,
+      subtotal: subtotal,
+    );
+  }
+
+  CartItemModel copyWith({
+    int? id,
+    int? productId,
+    CartProductModel? product,
     int? quantity,
-    String? imageUrl,
+    double? subtotal,
   }) {
-    return CartItem(
+    return CartItemModel(
       id: id ?? this.id,
       productId: productId ?? this.productId,
-      productName: productName ?? this.productName,
-      price: price ?? this.price,
+      product: product ?? this.product,
       quantity: quantity ?? this.quantity,
-      imageUrl: imageUrl ?? this.imageUrl,
+      subtotal: subtotal ?? this.subtotal,
     );
   }
 }

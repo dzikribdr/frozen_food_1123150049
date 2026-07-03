@@ -60,10 +60,10 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCGzpIgDSRmFd7ZmaT23y--7b7Z5qGGXUQ',
-    appId: '1:971359225019:android:6445b1f12375b14f02559e',
-    messagingSenderId: '971359225019',
-    projectId: 'uts-frozen-food',
-    storageBucket: 'uts-frozen-food.firebasestorage.app',
+    apiKey: 'AIzaSyBF2mUtmlIbgbaOzTl1sFQEBMheSUmavXw',
+    appId: '1:1078657184802:android:d7b5aadc385f4d8d87c67b',
+    messagingSenderId: '1078657184802',
+    projectId: 'frozenfood-41367',
+    storageBucket: 'frozenfood-41367.firebasestorage.app',
   );
 }

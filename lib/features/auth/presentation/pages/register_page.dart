@@ -1,18 +1,16 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:frozen_food_1123150049/core/routes/app_router.dart';
-import 'package:frozen_food_1123150049/core/widgets/auth_header.dart';
-import 'package:frozen_food_1123150049/core/widgets/custom_button.dart';
-import 'package:frozen_food_1123150049/core/widgets/custom_text_field.dart';
-import 'package:frozen_food_1123150049/core/widgets/loading_overlay.dart';
 import 'package:frozen_food_1123150049/features/auth/presentation/providers/auth_provider.dart';
-import 'package:frozen_food_1123150049/core/constants/app_colors.dart';
+import 'package:frozen_food_1123150049/features/auth/presentation/widgets/auth_header.dart';
+import 'package:frozen_food_1123150049/features/auth/presentation/widgets/custom_button.dart';
+import 'package:frozen_food_1123150049/features/auth/presentation/widgets/custom_text_field.dart';
+import 'package:frozen_food_1123150049/features/auth/presentation/widgets/loading_overlay.dart';
 import 'package:provider/provider.dart';
-
-
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
+
   @override
   State<RegisterPage> createState() => _RegisterPageState();
 }
@@ -45,14 +43,14 @@ class _RegisterPageState extends State<RegisterPage> {
     );
 
     if (!mounted) return;
+
     if (success) {
-      // Navigasi ke halaman instruksi verifikasi email
       Navigator.pushReplacementNamed(context, AppRouter.verifyEmail);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(auth.errorMessage ?? 'Pendaftaran gagal'),
-          backgroundColor: AppColors.error,
+          backgroundColor: Colors.red,
         ),
       );
     }
@@ -74,16 +72,12 @@ class _RegisterPageState extends State<RegisterPage> {
               child: Column(
                 children: [
                   const SizedBox(height: 32),
-
-                  // Widget reusable: AuthHeader
                   const AuthHeader(
                     icon: Icons.person_add_alt_1,
                     title: 'Buat Akun Baru',
                     subtitle: 'Lengkapi data diri Anda untuk mendaftar',
                   ),
                   const SizedBox(height: 32),
-
-                  // Widget reusable: CustomTextField
                   CustomTextField(
                     label: 'Nama Lengkap',
                     hint: 'Masukkan nama lengkap',
@@ -93,7 +87,6 @@ class _RegisterPageState extends State<RegisterPage> {
                         (v?.isEmpty ?? true) ? 'Nama wajib diisi' : null,
                   ),
                   const SizedBox(height: 16),
-
                   CustomTextField(
                     label: 'Email',
                     hint: 'contoh@email.com',
@@ -102,13 +95,13 @@ class _RegisterPageState extends State<RegisterPage> {
                     prefixIcon: const Icon(Icons.email_outlined),
                     validator: (v) {
                       if (v?.isEmpty ?? true) return 'Email wajib diisi';
-                      if (!EmailValidator.validate(v!))
+                      if (!EmailValidator.validate(v!)) {
                         return 'Format email salah';
+                      }
                       return null;
                     },
                   ),
                   const SizedBox(height: 16),
-
                   CustomTextField(
                     label: 'Password',
                     hint: 'Minimal 8 karakter',
@@ -126,7 +119,6 @@ class _RegisterPageState extends State<RegisterPage> {
                         : null,
                   ),
                   const SizedBox(height: 16),
-
                   CustomTextField(
                     label: 'Konfirmasi Password',
                     hint: 'Ulangi password',
@@ -137,16 +129,12 @@ class _RegisterPageState extends State<RegisterPage> {
                         v != _passCtrl.text ? 'Password tidak cocok' : null,
                   ),
                   const SizedBox(height: 28),
-
-                  // Widget reusable: CustomButton
                   CustomButton(
                     label: 'Daftar Sekarang',
                     onPressed: _register,
                     isLoading: isLoading,
                   ),
                   const SizedBox(height: 16),
-
-                  // Link ke Login
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -156,10 +144,10 @@ class _RegisterPageState extends State<RegisterPage> {
                           context,
                           AppRouter.login,
                         ),
-                        child: Text(
+                        child: const Text(
                           'Masuk',
                           style: TextStyle(
-                            color: AppColors.primary,
+                            color: Color(0xFF1565C0),
                             fontWeight: FontWeight.bold,
                           ),
                         ),

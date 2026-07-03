@@ -1,18 +1,15 @@
-
 import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart' hide AuthProvider;
 import 'package:flutter/material.dart';
 import 'package:frozen_food_1123150049/core/routes/app_router.dart';
-import 'package:frozen_food_1123150049/core/widgets/auth_header.dart';
-import 'package:frozen_food_1123150049/core/widgets/custom_button.dart';
-import 'package:frozen_food_1123150049/core/widgets/custom_text_field.dart';
-import 'package:frozen_food_1123150049/core/widgets/divider_with_text.dart';
-import 'package:frozen_food_1123150049/core/widgets/google_sign_in_button.dart';
-import 'package:frozen_food_1123150049/core/widgets/loading_overlay.dart';
-import 'package:provider/provider.dart';
 import 'package:frozen_food_1123150049/features/auth/presentation/providers/auth_provider.dart';
-import 'package:frozen_food_1123150049/core/constants/app_colors.dart';
-
-
+import 'package:frozen_food_1123150049/features/auth/presentation/widgets/auth_header.dart';
+import 'package:frozen_food_1123150049/features/auth/presentation/widgets/custom_button.dart';
+import 'package:frozen_food_1123150049/features/auth/presentation/widgets/custom_text_field.dart';
+import 'package:frozen_food_1123150049/features/auth/presentation/widgets/divider_with_text.dart';
+import 'package:frozen_food_1123150049/features/auth/presentation/widgets/google_sign_in_button.dart';
+import 'package:frozen_food_1123150049/features/auth/presentation/widgets/loading_overlay.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -66,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(auth.errorMessage ?? 'Login gagal'),
-          backgroundColor: AppColors.error,
+          backgroundColor: Colors.red,
         ),
       );
     }
@@ -89,20 +86,21 @@ class _LoginPageState extends State<LoginPage> {
             onPressed: () => Navigator.pop(context),
             child: const Text('Batal'),
           ),
-          // ElevatedButton(
-          //   onPressed: () async {
-          //     await Fire.instance.sendPasswordResetEmail(
-          //       email: ctrl.text.trim(),
-          //     );
-          //     if (context.mounted) Navigator.pop(context);
-          //   },
-          //   child: const Text('Kirim'),
-          // ),
+          ElevatedButton(
+            onPressed: () async {
+              await FirebaseAuth.instance.sendPasswordResetEmail(
+                email: ctrl.text.trim(),
+              );
+              if (context.mounted) Navigator.pop(context);
+            },
+            child: const Text('Kirim'),
+          ),
         ],
       ),
     );
   }
 
+  @override
   Widget build(BuildContext context) {
     final isLoading = context.watch<AuthProvider>().isLoading;
 
@@ -119,7 +117,7 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   const SizedBox(height: 32),
                   const AuthHeader(
-                    icon: Icons.food_bank,
+                    icon: Icons.lock_open_outlined,
                     title: 'Selamat Datang',
                     subtitle: 'Masuk ke akun Anda untuk melanjutkan',
                   ),
@@ -185,13 +183,13 @@ class _LoginPageState extends State<LoginPage> {
                           context,
                           AppRouter.register,
                         ),
-                        child: Text(
-  'Daftar',
-  style: TextStyle(
-    color: AppColors.primary,
-    fontWeight: FontWeight.bold,
-  ),
-),
+                        child: const Text(
+                          'Daftar',
+                          style: TextStyle(
+                            color: Color(0xFF1565C0),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                     ],
                   ),

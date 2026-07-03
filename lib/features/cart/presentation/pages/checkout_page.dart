@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:frozen_food_1123150049/core/constants/app_colors.dart';
 import '../providers/cart_provider.dart';
 import 'payment_success_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CheckoutPage extends StatefulWidget {
   const CheckoutPage({Key? key}) : super(key: key);
@@ -19,26 +20,32 @@ class _CheckoutPageState extends State<CheckoutPage> {
       _isProcessing = true;
     });
 
-    // Simulasi proses pembayaran
-    await Future.delayed(const Duration(seconds: 2));
+    try {
+      final total = context.read<CartProvider>().totalPrice;
 
-    if (mounted) {
-      setState(() {
-        _isProcessing = false;
-      });
-
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => PaymentSuccessPage(
-            onSuccess: () {
-              // Clear cart setelah sukses
-              context.read<CartProvider>().clearCart();
-              Navigator.popUntil(context, (route) => route.isFirst);
-            },
-          ),
-        ),
+      final uri = Uri(
+        scheme: 'dompetkampus',
+        host: 'pay',
+        queryParameters: {
+          'merchant_id': 'MCH001',
+          'merchant_name': 'Frozen Food',
+          'amount': total.toStringAsFixed(0),
+          'description': 'Pembayaran Frozen Food',
+          'reference': 'INV-${DateTime.now().millisecondsSinceEpoch}',
+        },
       );
+
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Gagal membuka Dompet Kampus\n$e')),
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isProcessing = false;
+        });
+      }
     }
   }
 
@@ -188,7 +195,10 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     // Item List
                     Expanded(
                       child: ListView.builder(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 12,
+                        ),
                         itemCount: cartProvider.items.length,
                         itemBuilder: (context, index) {
                           final item = cartProvider.items[index];
@@ -210,25 +220,41 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                       color: AppColors.primary.withOpacity(0.1),
                                       borderRadius: BorderRadius.circular(8),
                                       border: Border.all(
-                                        color: AppColors.primary.withOpacity(0.3),
+                                        color: AppColors.primary.withOpacity(
+                                          0.3,
+                                        ),
                                       ),
                                     ),
                                     child: item.imageUrl != null
                                         ? ClipRRect(
-                                            borderRadius: BorderRadius.circular(8),
+                                            borderRadius: BorderRadius.circular(
+                                              8,
+                                            ),
                                             child: Image.network(
                                               item.imageUrl!,
                                               fit: BoxFit.cover,
-                                              errorBuilder: (context, error, stackTrace) =>
-                                                  Icon(Icons.image, color: AppColors.primary),
+                                              errorBuilder:
+                                                  (
+                                                    context,
+                                                    error,
+                                                    stackTrace,
+                                                  ) => Icon(
+                                                    Icons.image,
+                                                    color: AppColors.primary,
+                                                  ),
                                             ),
                                           )
-                                        : Icon(Icons.image, color: AppColors.primary, size: 35),
+                                        : Icon(
+                                            Icons.image,
+                                            color: AppColors.primary,
+                                            size: 35,
+                                          ),
                                   ),
                                   const SizedBox(width: 12),
                                   Expanded(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           item.productName,
@@ -323,7 +349,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                   )
                                 : const Icon(Icons.payment),
                             label: Text(
-                              _isProcessing ? 'Memproses...' : 'Lanjutkan Pembayaran',
+                              _isProcessing
+                                  ? 'Memproses...'
+                                  : 'Lanjutkan Pembayaran',
                               style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
